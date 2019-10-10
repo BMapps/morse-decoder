@@ -6,7 +6,7 @@ const MORSE_TABLE = {
     '.':      'e',
     '..-.':   'f',
     '--.':    'g',
-    '....':   'h',
+    '....':   'h', 
     '..':     'i',
     '.---':   'j',
     '-.-':    'k',
@@ -38,9 +38,34 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let res;
+    outer: for (let i=0;i<expr.length;i+=10){
+        let letter=null;
+        if (expr.charAt(i)=="*"){
+            res=res+" ";
+            continue;
+        } 
+        for (let j=0;j<9;j+=2){
+            if (expr.substring(i+j,i+j+2)=="10") {
+                
+                letter=letter==null?".":letter+".";
+                continue;
+            }
+            if (expr.substring(i+j,i+j+2)=="11") {
+                letter=letter==null?"-":letter+"-";
+                continue;
+            }            
+        }
+        for (let key in MORSE_TABLE){
+            if (letter==key){                
+                res=res==null?MORSE_TABLE[key]:res+MORSE_TABLE[key];
+                continue outer;
+            }
+            
+        }        
+    }
+    return res;
 }
-
 module.exports = {
     decode
 }
